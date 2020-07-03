@@ -1,7 +1,7 @@
 # Epitech-Project
 Here is some epitech project i did during my study at Epitech
 
-Resume of the project:
+Resume of the projects:
 
 -202unsold: a probability calcul python project.
 
