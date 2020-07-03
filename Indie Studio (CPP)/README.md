@@ -1,5 +1,5 @@
 
-Explication of the project: [Indie.pdf](https://github.com/BNouailhac/Epitech-Project/blob/master/Indie%20Studio%20(CPP)/indie.pdf)
+Explanation of the project: [Indie.pdf](https://github.com/BNouailhac/Epitech-Project/blob/master/Indie%20Studio%20(CPP)/indie.pdf)
 
 
 
