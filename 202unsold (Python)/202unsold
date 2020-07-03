@@ -1,0 +1,123 @@
+#!/usr/bin/env python3
+##
+## EPITECH PROJECT, 2020
+## 202unsold
+## File description:
+## 202unsold
+##
+#!/usr/bin/env python3
+
+import sys, math
+from math import *
+
+sys.argv: "./201yams a b"
+
+tableau = list()
+xLawTab = list()
+yLawTab = list()
+
+def diplayResult(a, b):
+    print("--------------------------------------------------------------------------------")
+    print("\tX=10    X=20    X=30    X=40    X=50    Y law")
+    y = 10
+    i = 0
+    m = 0
+    while (y != 60):
+        x = 10
+        line = "Y=" + str(y) + "    "
+        xlaw = 0
+        while (x != 60):
+            calc = ((a - x) * (b - y)) / (((5 * a) - 150) * ((5 * b) - 150))
+            xlaw += calc
+            tableau.insert(i, calc)
+            line += str("%.3f"%tableau[i]) + "   "
+            x += 10
+            i += 1
+        xLawTab.insert(m, xlaw)
+        line += str("%.3f"%xlaw)
+        print(line)
+        y += 10
+        m += 1
+    i = 0
+    line = "X law   "
+    while (i != 5):
+        ylaw = (tableau[0 + i] + tableau[5 + i] + tableau[10 + i] + tableau[15 + i] + tableau[20 + i])
+        yLawTab.insert(i, ylaw)
+        line += str("%.3f"%ylaw) + "   "
+        i += 1
+    line += "1.000"
+    print(line)
+    print("--------------------------------------------------------------------------------")
+    print("z\t20\t30\t40\t50\t60\t70\t80\t90\t100")
+    line = "p(Z=z)  "
+    z = tableau[0]
+    line += str("%.3f"%z) + "   "
+    z = tableau[1] + tableau[5]
+    line += str("%.3f"%z) + "   "
+    z = tableau[6] + tableau[10] + tableau[2]
+    line += str("%.3f"%z) + "   "
+    z = tableau[3] + tableau[7] + tableau[11] + tableau[15]
+    line += str("%.3f"%z) + "   "
+    z = tableau[20] + tableau[16] + tableau[12] + tableau[8] + tableau[4]
+    line += str("%.3f"%z) + "   "
+    z = tableau[21] + tableau[17] + tableau[13] + tableau[9]
+    line += str("%.3f"%z) + "   "
+    z = tableau[22] + tableau[18] + tableau[14]
+    line += str("%.3f"%z) + "   "
+    z = tableau[23] + tableau[19]
+    line += str("%.3f"%z) + "   "
+    z = tableau[24]
+    line += str("%.3f"%z)
+    print(line)
+    print("--------------------------------------------------------------------------------")
+    x = 10
+    y = 10
+    i = 0
+    totX = 0
+    totY = 0
+    while (x <= 50):
+        totX += yLawTab[i] * x
+        totY += xLawTab[i] * x
+        i += 1
+        x += 10
+    i = 0
+    varianceX = 0
+    varianceY = 0
+    while (i < 5):
+        varianceX += ((i + 1) * 10 - totX) * ((i + 1) * 10 - totX) * yLawTab[i]
+        varianceY += ((i + 1) * 10 - totY) * ((i + 1) * 10 - totY) * xLawTab[i]
+        i += 1
+    print("expected value of X:\t%0.1f"%totX)
+    print("variance of X:\t\t%0.1f"%varianceX)
+    print("expected value of Y:\t%0.1f"%totY)
+    print("variance of Y:\t\t%0.1f"%varianceY)
+    print("expected value of Z:\t%0.1f"%(totX + totY))
+    print("variance of Z:\t\t%0.1f"%(varianceX + varianceY))
+    print("--------------------------------------------------------------------------------")
+    exit(0)
+
+def error():
+    if len(sys.argv) != 3:
+        if (len(sys.argv) == 2 and sys.argv[1] == "-h"):
+            print("USAGE")
+            print("    ./202unsold a b")
+            print("DESCRIPTION")
+            print("    a      constant computed from past results")
+            print("    b      constant computed from past results")
+            exit(84)
+        else:
+            if (len(sys.argv) < 3):
+                print("Too few arguments")
+                exit(84)
+            if (len(sys.argv) > 3):
+                print("Too many arguments")
+                exit(84)
+    else:
+        a = int(sys.argv[1])
+        b = int(sys.argv[2])
+        if (a <= 50 or b <= 50):
+            print("Error: bad parameters")
+            exit(84)
+        diplayResult(a, b)
+
+error()

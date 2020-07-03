@@ -1,0 +1,143 @@
+#!/usr/bin/env python3
+##
+## EPITECH PROJECT, 2020
+## groundhog
+## File description:
+## groundhog
+##
+#!/usr/bin/env python3
+
+import sys, math
+from math import *
+
+sys.argv: "./groundhog period"
+
+switch = 0
+
+#input("") -> récupère l'input sans rien afficher à l'écran
+
+def computedeviation2(period = 0, InputList = []):
+    try:
+        if (len(InputList) >= period):
+                avg = sum(InputList[-period:]) / period
+                return ('{:.2f}'.format(sqrt(sum(map(lambda x:(x - avg)**2, InputList[-period:])) / period)))
+        return (None)
+    except (ValueError, ZeroDivisionError, FloatingPointError):
+        return (None)
+
+def computerelative(period = 0, InputList = []):
+    try:
+        if (len(InputList) > period):
+                return ('{}'.format(round((InputList[-1] / InputList[-(1 + period)] - 1) * 100)))
+        return ("nan")
+    except (ValueError, ZeroDivisionError, FloatingPointError):
+        return ("nan")
+
+def computeavg(period = 0, InputList = []):
+    try:
+        if (len(InputList) > period):
+                return ('{:.2f}'.format(sum(list(map(lambda x, y: max(0, x - y), InputList[-period:], InputList[-(period + 1):-1]))) / period))
+        return ("nan")
+    except (ValueError, ZeroDivisionError, FloatingPointError):
+        return ("nan")
+
+def computedeviation(period = 0, InputList = []):
+    try:
+        if (len(InputList) >= period):
+                avg = sum(InputList[-period:]) / period
+                return ('{:.2f}'.format(sqrt(sum(map(lambda x:(x - avg)**2, InputList[-period:])) / period)))
+        return ("nan")
+    except (ValueError, ZeroDivisionError, FloatingPointError):
+        return ("nan")
+
+def computeavg2(period = 0, InputList = []):
+    try:
+        if (len(InputList) >= period):
+                avg = (sum(InputList[-period:]) / period)
+                return (sum(InputList[-period:]) / period)
+        return (None)
+    except (ValueError, ZeroDivisionError, FloatingPointError):
+            return (None)
+
+def computeswitch(period, InputList):
+    global switch
+    if (len(InputList) > period + 1):
+        try:
+            nb = abs((round((InputList[-2] / InputList[-(2 + period)] - 1) * 100)) + (round((InputList[-1] / InputList[-(1 + period)] - 1) * 100)))
+            nb2 = abs((round((InputList[-2] / InputList[-(2 + period)] - 1) * 100))) + abs((round((InputList[-1] / InputList[-(1 + period)] - 1) * 100)))
+            if (nb != nb2):
+                switch = switch + 1
+                return ("    a switch occurs")
+        except (ValueError, ZeroDivisionError, FloatingPointError):
+            return ("")
+    return ("")
+
+def groundhog(period):
+    InputList = []
+    listdev = []
+    avglist = []
+    polist = []
+    try:
+        input_value = input()
+        while (10):
+            if (input_value == "STOP"):
+                break
+            try:
+                InputList.append(float(input_value))
+                print("g={}    r={}%    s={}{}".format(computeavg(period, InputList), computerelative(period, InputList),
+                computedeviation(period, InputList), computeswitch(period, InputList)))
+
+                listdev.append(computedeviation2(period, InputList))
+                avglist.append(computeavg2(period, InputList))
+                listdev = list(filter(None, listdev))
+                try:
+                    bande_basse = avglist[-1] - 2 * float(listdev[-1])
+                    bande_haute = avglist[-1] + 2 * float(listdev[-1])
+                    polist.append((InputList[-1] - bande_basse) / (bande_haute - bande_basse))
+                except (IndexError, ZeroDivisionError):
+                    pass
+            except ValueError:
+                continue
+            input_value = input()
+            try:
+                float(input_value)
+            except ValueError:
+                if (input_value != "STOP"):
+                    exit(0)
+        if (len(InputList) < period):
+            exit(0)
+        global switch
+        print("Global tendency switched {} times".format(switch))
+        polist = list(map(lambda x : abs(x - .5), polist))
+        oth = sorted(polist)
+        fin = oth[-5:]
+        fin = list(map(lambda x : InputList[polist.index(x) + period - 1], fin))
+        print("5 weirdest values are {}".format(fin[::-1]))
+    except KeyboardInterrupt:
+        exit(0)
+
+def error():
+    if len(sys.argv) == 2:
+        try:
+            if (sys.argv[1] == '-h'):
+                print("SYNOPSIS\n\t./groundhog period\n\nDESCRIPTION\n\tperiod\t\tthe number of days defining a period")
+                exit(84)
+            period = int(sys.argv[1])
+            if period < 1:
+                print("Error: period must be greater than 1")
+                exit(84)
+            groundhog(period)
+            exit(0)
+        except ValueError:
+            print("Error: Arguments must be integers")
+            exit(84)
+    else:
+        if (len(sys.argv) < 2):
+            print("Too few arguments")
+            exit(84)
+        if (len(sys.argv) > 2):
+            print("Too many arguments")
+            exit(84)
+
+error()
+exit(0)
